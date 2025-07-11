@@ -34,14 +34,23 @@
     function getLastUpdateDate() {
       const today = new Date();
       const year = today.getFullYear();
-      const month = today.getMonth(); // 0-indexed (Jan = 0)
+      const month = today.getMonth(); // January = 0
       const day = today.getDate();
 
-      let updateMonth = day < 5 ? month - 1 : month;
-      let updateYear = year;
+      let updateMonth, updateYear;
 
+      // Before the 5th → go back 2 months
+      if (day < 5) {
+        updateMonth = month - 2;
+      } else {
+        updateMonth = month - 1;
+      }
+
+      updateYear = year;
+
+      // Handle wraparound if month goes below 0
       if (updateMonth < 0) {
-        updateMonth = 11;
+        updateMonth += 12;
         updateYear -= 1;
       }
 
