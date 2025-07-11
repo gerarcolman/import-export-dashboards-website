@@ -33,30 +33,31 @@
   <script>
     function getLastUpdateDate() {
       const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth(); // January = 0
-      const day = today.getDate();
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth(); // 0 = Jan
+      const currentDay = today.getDate();
 
-      let updateMonth, updateYear;
+      let updateYear, updateMonth;
 
-      // Before the 5th → go back 2 months
-      if (day < 5) {
-        updateMonth = month - 2;
+      // If before the 5th, use 2 months ago
+      if (currentDay < 5) {
+        updateMonth = currentMonth - 2;
       } else {
-        updateMonth = month - 1;
+        updateMonth = currentMonth - 1;
       }
 
-      updateYear = year;
+      updateYear = currentYear;
 
-      // Handle wraparound if month goes below 0
       if (updateMonth < 0) {
         updateMonth += 12;
         updateYear -= 1;
       }
 
+      // Get last day of the selected update month
       const lastDay = new Date(updateYear, updateMonth + 1, 0).getDate();
-      const formattedMonth = (updateMonth + 1).toString().padStart(2, '0');
-      const formattedDay = lastDay.toString().padStart(2, '0');
+
+      const formattedMonth = String(updateMonth + 1).padStart(2, '0');
+      const formattedDay = String(lastDay).padStart(2, '0');
 
       return `Last Update: ${updateYear}/${formattedMonth}/${formattedDay}`;
     }
